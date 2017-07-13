@@ -12,8 +12,6 @@
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
 
@@ -61,39 +59,65 @@
 
     <div class="panel panel-default">
       <!-- Default panel contents -->
-      <div class="panel-heading">Professional Development</div>
+      <div class="panel-heading">...</div>
       <div class="panel-body">
-        <p>
-          <input class="btn btn-default btn-lg" type="button" value="New Task"/>
-        </p>
+        <div>
+          <form id="newRecord" action="/records" method="POST">
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input type="text" class="form-control" name="date" id="date" placeholder="Date">
+            </div>
+            <div class="form-group">
+              <label for="folder">Email address</label>
+              <select class="form-control" name="folder" id="folder">
+                <option>folder1</option>
+                <option>folder2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select class="form-control" name="category" id="category">
+                <option>cat1</option>
+                <option>cat2</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="notes">Notes</label>
+              <input type="text" class="form-control" name="notes" id="notes" placeholder="Notes">
+            </div>
+            <div class="form-group">
+              <label for="hours">Hours</label>
+              <input type="text" class="form-control" name="hours" id="hours" placeholder="Hours">
+            </div>
+            <div class="form-group">
+              <label for="rate">Rate</label>
+              <input type="text" class="form-control" name="rate" id="rate" placeholder="Rate">
+            </div>
+            <input id="btnNewRecord" class="btn btn-default" type="button" value="New Record"/>
+          </form>
+        </div>
       </div>
 
       <!-- Table -->
       <table class="table">
         <thead>
-          <td>Task</td>
+          <td>Date</td>
+          <td>Folder</td>
+          <td>Category</td>
           <td>Notes</td>
-          <td>Billable</td>
+          <td>Hours</td>
           <td>Rate</td>
+          <td>Total</td>
         </thead>
-        <tbody>
+        <tbody id="records">
           <tr>
-            <td>Emails</td>
-            <td></td>
-            <td>Yes</td>
+            <td>2016-01-31</td>
+            <td>Folder A</td>
+            <td>Email</td>
+            <td>I sent an email</td>
+            <td>2.0</td>
             <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>File Review</td>
-            <td>Revied file with client</td>
-            <td>Yes</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>File Review PD</td>
-            <td></td>
-            <td>Yes</td>
-            <td>$35.00</td>
+            <td>$100.00</td>
           </tr>
         </tbody>
       </table>
@@ -102,7 +126,42 @@
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="js/bootstrap.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <script type="text/javascript">
+        $(function() {
+
+            // clear table on startup
+            var records = $('#records');
+            records.empty();
+
+            // fetch records and populate table
+            $.get( "/records", function( data ) {
+              console.log(data);
+              data.forEach(function(row) {
+                console.log(row);
+                records.append('<tr>');
+                records.append('<td>' + row.date + '</td>');
+                records.append('<td>' + row.folder + '</td>');
+                records.append('<td>' + row.category + '</td>');
+                records.append('<td>' + (row.notes != null ? row.notes : '') + '</td>');
+                records.append('<td>' + row.hours + '</td>');
+                records.append('<td>' + row.rate + '</td>');
+                records.append('<td>' + row.total + '</td>');
+                records.append('</tr>');
+              });
+            });
+        });
+
+        $('#btnNewRecord').click(function(event) {
+          console.log('submit form');
+          $('#newRecord').submit();
+          /*function(event2) {
+            console.log('form submitted');
+            //event2.preventDefault();
+          });*/
+        });
+      </script>
     </div>
   </body>
 </html>

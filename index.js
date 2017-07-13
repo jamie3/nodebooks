@@ -28,6 +28,14 @@ const options = {
   }
 };
 
+server.route({
+  method: 'GET',
+  path: '/',
+  handler: function (request, reply) {
+    reply.file('html/tracking.html')
+  }
+})
+
 server.register([
   Inert,
   Vision,

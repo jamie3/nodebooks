@@ -69,7 +69,7 @@ exports.register = function(server, options, next) {
 
 const createRecord = function (request, reply) {
 
-  console.log('creating record');
+  console.log('create record');
 
   var record = {
     date: request.payload.date,
