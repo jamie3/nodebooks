@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Node Books</title>
+
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+  </head>
+  <body>
+
+<!-- Static navbar -->
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Faye Books</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <!--
+          <li class="active"><a href="#">Home</a></li>-->
+          <li><a href="#">Time Tracking</a></li>
+          <li><a href="#">Folders</a></li>
+          <li><a href="client-account.html">Client Account</a></li>
+          <!--
+          <li><a href="#contact">Expenses</a></li>
+          <li><a href="#contact">Reports</a></li>-->
+          <!--
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li class="dropdown-header">Nav header</li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>-->
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><h4>Folders</h4></div>
+      <div class="panel-body">
+        <div>
+          <form id="newFolder" action="/folders" method="POST">
+            <div class="form-group">
+              <label for="folder">Folder Name</label>
+              <input type="text" class="form-control" name="folder" id="folder" placeholder="Folder">
+            </div>
+            <div class="form-group">
+              <label for="client">Client Account</label>
+              <input type="text" class="form-control" name="client" id="client" placeholder="Client Account">
+            </div>
+            <div class="form-group">
+              <label for="file">Altius File Number</label>
+              <input type="text" class="form-control" name="file" id="file" placeholder="Altius File Number">
+            </div>
+            <input id="btnNewFolder" class="btn btn-default" type="button" value="New Folder"/>
+          </form>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <td>Date</td>
+          <td>Folder</td>
+          <td>Client</td>
+          <td>Altius</td>
+        </thead>
+        <tbody id="folders">
+          <tr>
+            <td>2016-01-31</td>
+            <td>Folder A</td>
+            <td>ABCDEF</td>
+            <td>123456</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <script type="text/javascript">
+        $(function() {
+
+          loadFolders();
+        });
+
+        function loadFolders() {
+          // clear table on startup
+          var folders = $('#folders');
+          folders.empty();
+
+          // fetch records and populate table
+          $.get( "/folders", function( data ) {
+            console.log(data);
+            data.forEach(function(row) {
+              console.log(row);
+              folders.append('<tr>');
+              folders.append('<td>' + row.date + '</td>');
+              folders.append('<td>' + row.folder + '</td>');
+              folders.append('<td>' + row.client + '</td>');
+              folders.append('<td>' + row.file + '</td>');
+              folders.append('</tr>');
+            });
+          });
+        }
+
+        $('#newFolder').click(function() {
+
+          console.log('submit');
+
+          $.post("/folders", {
+            folder: $('#folder').value,
+            client: $('#client').value,
+            file: $('#file').value,
+          })
+          .done(function(data) {
+            console.log('done');
+            loadFolders();
+          });
+        });
+
+      </script>
+    </div>
+  </body>
+</html>

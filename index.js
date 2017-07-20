@@ -32,9 +32,25 @@ server.route({
   method: 'GET',
   path: '/',
   handler: function (request, reply) {
-    reply.file('html/tracking.html')
+    reply.file('html/timeTracking.html')
   }
-})
+});
+
+server.route({
+  method: 'GET',
+  path: '/folders.html',
+  handler: function (request, reply) {
+    reply.file('html/folders.html')
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/clientAccounts.html',
+  handler: function (request, reply) {
+    reply.file('html/clientAccounts.html')
+  }
+});
 
 server.register([
   Inert,
@@ -43,7 +59,13 @@ server.register([
     'register': HapiSwagger,
     'options': options
 }, {
-    register: require('./plugins/tasks/index.js'),
+    register: require('./plugins/records/index.js'),
+    options: {}
+}, {
+    register: require('./plugins/folders/index.js'),
+    options: {}
+}, {
+    register: require('./plugins/clientAccounts/index.js'),
     options: {}
 }], (err) => {
 

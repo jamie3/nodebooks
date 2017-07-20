@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Faye Books</title>
+    <title>Node Books</title>
 
     <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -15,43 +15,45 @@
   </head>
   <body>
 
-        <!-- Static navbar -->
-            <nav class="navbar navbar-default navbar-static-top">
-              <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                  </button>
-                  <a class="navbar-brand" href="#">Faye Books</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav">
-                    <!--
-                    <li class="active"><a href="#">Home</a></li>-->
-                    <li><a href="#">Time Tracking</a></li>
-                    <!--
-                    <li><a href="#contact">Expenses</a></li>
-                    <li><a href="#contact">Reports</a></li>-->
-                    <!--
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
-                      </ul>
-                    </li>-->
-                  </ul>
-                </div><!--/.nav-collapse -->
-              </div>
-            </nav>
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Faye Books</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--
+            <li class="active"><a href="#">Home</a></li>-->
+            <li><a href="/timeTracking.html">Time Tracking</a></li>
+            <li><a href="/folders.html">Folders</a></li>
+            <li><a href="/clientAccounts.html">Client Accounts</a></li>
+            <!--
+            <li><a href="#contact">Expenses</a></li>
+            <li><a href="#contact">Reports</a></li>-->
+            <!--
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
 
   <div class="container">
 
@@ -68,17 +70,17 @@
               <input type="text" class="form-control" name="date" id="date" placeholder="Date">
             </div>
             <div class="form-group">
-              <label for="folder">Email address</label>
+              <label for="folder">Folder</label>
               <select class="form-control" name="folder" id="folder">
-                <option>folder1</option>
-                <option>folder2</option>
+                <option>Barby Doll</option>
+                <option>John Doe</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="category">Category</label>
+              <label for="category">Activity</label>
               <select class="form-control" name="category" id="category">
-                <option>cat1</option>
-                <option>cat2</option>
+                <option>Email</option>
+                <option>Phone call</option>
               </select>
             </div>
             <div class="form-group">
@@ -114,10 +116,8 @@
             <td>2016-01-31</td>
             <td>Folder A</td>
             <td>Email</td>
-            <td>I sent an email</td>
-            <td>2.0</td>
-            <td>$50.00</td>
-            <td>$100.00</td>
+            <td>
+            <td>34567</td>
           </tr>
         </tbody>
       </table>
@@ -135,7 +135,7 @@
             var records = $('#records');
             records.empty();
 
-            // fetch records and populate table
+            // populate table
             $.get( "/records", function( data ) {
               console.log(data);
               data.forEach(function(row) {
@@ -153,13 +153,12 @@
             });
         });
 
-        $('#btnNewRecord').click(function(event) {
+        $('#btnNewFolder').click(function(event) {
           console.log('submit form');
-          $('#newRecord').submit();
-          /*function(event2) {
+          $('#btnNewFolder').submit(function(event2) {
             console.log('form submitted');
             //event2.preventDefault();
-          });*/
+          });
         });
       </script>
     </div>

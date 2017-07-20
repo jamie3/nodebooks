@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Node Books</title>
+
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+  </head>
+  <body>
+
+<!-- Static navbar -->
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Faye Books</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <!--
+          <li class="active"><a href="#">Home</a></li>-->
+          <li><a href="/timeTracking.html">Time Tracking</a></li>
+          <li><a href="/folders.html">Folders</a></li>
+          <li><a href="/clientAccounts.html">Client Accounts</a></li>
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div>
+      <div id="success" class="alert alert-success">
+        <strong>Success!</strong> New client account was added.
+      </div>
+      <div id="error" class="alert alert-danger">
+        <strong>Failed!</strong> Client account could not be added.
+      </div>
+      <form id="newClientAccount">
+        <div class="form-group">
+          <label for="clientAccount">Client Account</label>
+          <input type="text" class="form-control" name="clientAccount" id="clientAccount" placeholder="Client Account">
+        </div>
+        <input id="btnNewClientAccount" class="btn btn-default" type="button" value="Add"/>
+      </form>
+    </div>
+
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><h4>Client Accounts</h4></div>
+      <div class="panel-body">
+
+      </div>
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <td>Client Account</td>
+        </thead>
+        <tbody id="clientAccounts">
+          <tr>
+            <td>GWL</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+      <script type="text/javascript">
+        $(function() {
+
+          $('#error').hide();
+          $('#success').hide();
+
+          loadClientAccounts();
+        });
+
+        function loadClientAccounts() {
+          // clear table on startup
+          var clientAccounts = $('#clientAccounts');
+          clientAccounts.empty();
+
+          // fetch records and populate table
+          $.get( "/clientAccounts", function( data ) {
+            console.log(data);
+            data.forEach(function(row) {
+              console.log(row);
+              clientAccounts.append('<tr>');
+              clientAccounts.append('<td>' + row.name + '</td>');
+              clientAccounts.append('</tr>');
+            });
+          });
+        }
+
+        $('#btnNewClientAccount').click(function() {
+
+          var clientAccount = $('#clientAccount')[0].value;
+
+          $.post("/clientAccounts", {
+            clientAccount: clientAccount
+          })
+          .fail(function() {
+            $('#error').show();
+            $('#success').hide();
+          })
+          .done(function(data) {
+            $('#clientAccount')[0].value = '';
+            $('#success').show();
+            $('#error').hide();
+            loadClientAccounts();
+          });
+        });
+
+      </script>
+    </div>
+  </body>
+</html>

@@ -35,8 +35,6 @@ exports.register = function(server, options, next) {
           payload: {
             date: Joi.string().required(),//regex(/^[0-9]{4}[0-9]{2}[0-9]{2}$/).required(),
             folder: Joi.string().required(),
-            client: Joi.string().required(),
-            file: Joi.string().optional(),
             account: Joi.string().optional(),
             category: Joi.string().required(),
             notes: Joi.string().optional(),
@@ -74,9 +72,6 @@ const createRecord = function (request, reply) {
   var record = {
     date: request.payload.date,
     folder: request.payload.folder,
-    client: request.payload.client,
-    file: request.payload.file,
-    account: request.payload.account,
     category: request.payload.category,
     notes: request.payload.notes,
     hours: request.payload.hours,
